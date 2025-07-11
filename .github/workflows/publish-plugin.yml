@@ -27,3 +27,8 @@ jobs:
           tar cf plugin.tar plugin.min.js plugin.html plugin.json
 
       - name: Publish to Windy
+        run: |
+          echo "Publishing plugin to Windy..."
+          curl -s --fail-with-body -XPOST 'https://node.windy.com/plugins/v1.0/upload' \
+            -H "x-windy-api-key: $WINDY_API_KEY" \
+            -F "plugin_archive=@plugin.tar"
