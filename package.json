@@ -4,7 +4,7 @@
   "description": "Displays air temperature at flight levels using Windy overlays.",
   "scripts": {
     "build": "mkdir -p dist && cp manifest.json dist/plugin.json && cp plugin.js dist/plugin.min.js && cp plugin.html dist/"
-  },
+  }
   "author": "Your Name",
   "license": "MIT"
 }
