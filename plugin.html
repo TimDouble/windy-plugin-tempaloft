@@ -1,10 +1,26 @@
-<div id="tempaloft-plugin" style="padding: 10px">
-  <h3>Temperature Aloft</h3>
-  <select id="altitudeSelector">
-    <option value="temp" selected>Surface</option>
-    <option value="temp@950h">FL050 (~950 hPa)</option>
-    <option value="temp@850h">FL100 (~850 hPa)</option>
-    <option value="temp@700h">FL180 (~700 hPa)</option>
-    <option value="temp@400h">FL300 (~400 hPa)</option>
-  </select>
+<div class="plugin-content">
+  <h2>Temperature Aloft</h2>
+  <p>Current Level: <span id="levelDisplay"></span></p>
+  <button onclick="tempaloft.nextLevel()">Next Level</button>
 </div>
+
+<style>
+  .plugin-content {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 5px 10px;
+    background: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  const el = document.getElementById('levelDisplay');
+  el.innerText = window.tempaloft?.currentLevel?.() ?? 'loading...';
+</script>
