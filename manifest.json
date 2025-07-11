@@ -4,7 +4,7 @@
   "title": "Temperature Aloft",
   "description": "Displays air temperature at flight levels using Windy overlays.",
   "author": "Tim Double",
-  "repository": "https://github.com/TimDouble/tempaloft",
+  "repository": "https://github.com/TimDouble/windy-plugin-tempaloft.git",
   "plugin": "plugin.min.js",
   "html": "plugin.html",
   "desktopUI": true,
