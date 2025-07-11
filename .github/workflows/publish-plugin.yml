@@ -8,19 +8,22 @@ jobs:
     runs-on: ubuntu-latest
     env:
       WINDY_API_KEY: ${{ secrets.WINDY_API_KEY }}
-    steps:
-      - uses: actions/checkout@v3
 
-       - name: Publish Plugin
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Prepare plugin archive
         run: |
           if [ -z "$WINDY_API_KEY" ]; then
             echo "Secret WINDY_API_KEY is not configured" >&2
             exit 1
           fi
-          echo "Creating plugin archive..."
+
+          echo "Copying manifest.json to plugin.json..."
           cp manifest.json plugin.json
+
+          echo "Creating plugin archive..."
           tar cf plugin.tar plugin.min.js plugin.html plugin.json
-          echo "Publishing plugin..."
-          curl -s --fail-with-body -XPOST 'https://node.windy.com/plugins/v1.0/upload' \
-            -H "x-windy-api-key: $WINDY_API_KEY" \
-            -F "plugin_archive=@plugin.tar"
+
+      - name: Publish to Windy
