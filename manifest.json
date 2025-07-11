@@ -1,6 +1,6 @@
 {
   "name": "windy-plugin-tempaloft",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "title": "Temperature Aloft",
   "description": "Displays air temperature at flight levels using Windy overlays.",
   "author": "Your Name",
