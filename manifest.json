@@ -1,0 +1,10 @@
+{
+  "name": "Temperature Aloft",
+  "author": "Your Name",
+  "description": "Displays temperatures at various flight levels using Windy layers.",
+  "script": "plugin.js",
+  "html": "plugin.html",
+  "version": "0.1.0",
+  "repository": "",
+  "dependencies": []
+}
