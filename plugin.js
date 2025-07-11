@@ -1,30 +1,25 @@
-windyPlugin('tempaloft', {
-    // Called when plugin is loaded
-    init: (plugin) => {
-        const { store } = windyAPI;
+export const name = 'tempaloft';
 
-        // Get HTML panel
-        const root = document.getElementById('tempaloft-plugin');
-        plugin.onopen = () => {
-            store.activate('temp');
-        };
+export function setup(params) {
+    const { store } = windyAPI;
 
-        // Change temperature altitude
-        root.querySelector('#altitudeSelector').addEventListener('change', (e) => {
-            const level = e.target.value;
-            store.set('overlay', level); // Set the selected level
-        });
+    const levels = ['FL050', 'FL100', 'FL180', 'FL240', 'FL300', 'FL340'];
 
-        // Optional: react to map movement or overlay change
-    },
+    let currentLevelIndex = 0;
 
-    // Called when plugin is opened
-    onopen: () => {
-        console.log('Temperature Aloft plugin opened');
-    },
-
-    // Called when plugin is closed
-    onclose: () => {
-        console.log('Temperature Aloft plugin closed');
+    function updateOverlay() {
+        const level = levels[currentLevelIndex];
+        store.set('overlay', 'temp');
+        store.set('level', level);
     }
-});
+
+    window.tempaloft = {
+        nextLevel: () => {
+            currentLevelIndex = (currentLevelIndex + 1) % levels.length;
+            updateOverlay();
+        },
+        currentLevel: () => levels[currentLevelIndex]
+    };
+
+    updateOverlay();
+}
