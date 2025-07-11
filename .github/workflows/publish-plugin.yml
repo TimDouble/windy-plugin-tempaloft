@@ -14,6 +14,9 @@ jobs:
               run: |
                   npm install
                   npm run build
+            - name: Bump plugin version
+              run: bash ./bump-version.sh
+
             - name: Publish Plugin
               run: |
                   if [ -z "$WINDY_API_KEY" ]; then
