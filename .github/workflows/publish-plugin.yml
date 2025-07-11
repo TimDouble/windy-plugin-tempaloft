@@ -8,28 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     env:
       WINDY_API_KEY: ${{ secrets.WINDY_API_KEY }}
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install npm dependencies
-        run: npm install
-
-      - name: Build plugin
-        run: npm run build
-
-      - name: Create plugin archive and publish
+      - name: Publish Plugin
         run: |
-          cd dist
+          if [ -z "$WINDY_API_KEY" ]; then
+            echo "Secret WINDY_API_KEY is not configured" >&2
+            exit 1
+          fi
           echo "Creating plugin archive..."
-          tar cf ../plugin.tar .
-
+          tar cf plugin.tar plugin.min.js plugin.html manifest.json
           echo "Publishing plugin..."
           curl -s --fail-with-body -XPOST 'https://node.windy.com/plugins/v1.0/upload' \
             -H "x-windy-api-key: $WINDY_API_KEY" \
-            -F "plugin_archive=@../plugin.tar"
+            -F "plugin_archive=@plugin.tar"
+
