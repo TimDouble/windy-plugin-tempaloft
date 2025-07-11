@@ -1,6 +1,6 @@
 {
   "name": "windy-plugin-tempaloft",
-  "version": "2.0.4",
+  "version": "2.0.7",
   "description": "Displays air temperature at flight levels using Windy overlays.",
   "scripts": {
     "build": "mkdir -p dist && cp manifest.json dist/plugin.json && cp plugin.js dist/plugin.min.js && cp plugin.html dist/"
