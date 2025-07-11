@@ -1,10 +1,13 @@
 {
-  "name": "Temperature Aloft",
+  "name": "TempAloft",
+  "version": "1.0.0",
+  "title": "Temperature Aloft",
+  "description": "Displays air temperature at flight levels using Windy overlays.",
   "author": "Your Name",
-  "description": "Displays temperatures at various flight levels using Windy layers.",
-  "script": "plugin.js",
+  "repository": "https://github.com/your-username/tempaloft-plugin",
+  "plugin": "plugin.js",
   "html": "plugin.html",
-  "version": "0.1.0",
-  "repository": "",
-  "dependencies": []
+  "desktopUI": true,
+  "mobileUI": false,
+  "dependencies": ["windy"]
 }
