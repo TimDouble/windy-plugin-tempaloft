@@ -5,7 +5,7 @@
     "main": "dist/plugin.min.js",
     "type": "module",
     "scripts": {
-          "build": "mkdir -p dist && cp manifest.json dist/plugin.json"
+          "build": "mkdir -p dist && cp manifest.json dist/plugin.json",
         "build:win": "rmdir /s /q dist && mkdir dist && set SERVE=false && rollup -c && copy package.json dist\\",
         "start": "rollup -w -c",
         "example01": "CONFIG=example01 rollup -w -c",
