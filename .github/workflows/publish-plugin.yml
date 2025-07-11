@@ -1,33 +1,38 @@
 name: publish-plugin
 
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
-    publish-plugin:
-        runs-on: ubuntu-latest
-        env:
-            WINDY_API_KEY: '${{ secrets.WINDY_API_KEY }}'
-        steps:
-            - uses: actions/checkout@v2
-            - name: Build
-              run: |
-                  npm install
-                  npm run build
-            - name: Bump plugin version
-              run: bash ./bump-version.sh
+  publish-plugin:
+    runs-on: ubuntu-latest
+    env:
+      WINDY_API_KEY: '${{ secrets.WINDY_API_KEY }}'
+    steps:
+      - uses: actions/checkout@v2
 
-            - name: Publish Plugin
-              run: |
-                  if [ -z "$WINDY_API_KEY" ]; then
-                    echo "Secret WINDY_API_KEY is not configured" >&2
-                    exit 1
-                  fi
-                  cd dist
-                  echo "Creating plugin archive..."
-                  echo "{\"repositoryName\": \"${{ github.repository }}\", \"commitSha\": \"${{ github.sha }}\", \"repositoryOwner\": \"${{ github.repository_owner }}\"}" > /tmp/plugin-info.json
-                  mv plugin.json /tmp
-                  jq -s '.[0] * .[1]' /tmp/plugin.json /tmp/plugin-info.json > plugin.json
-                  tar cf ../plugin.tar .
-                  echo "Publishing plugin..."
-                  curl -s --fail-with-body -XPOST 'https://node.windy.com/plugins/v1.0/upload' -H "x-windy-api-key: ${WINDY_API_KEY}" -F "plugin_archive=@../plugin.tar"
+      - name: Bump plugin version
+        run: bash ./bump-version.sh
+
+      - name: Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Check plugin version
+        run: cat dist/plugin.json
+
+      - name: Publish Plugin
+        run: |
+          if [ -z "$WINDY_API_KEY" ]; then
+            echo "Secret WINDY_API_KEY is not configured" >&2
+            exit 1
+          fi
+          cd dist
+          echo "Creating plugin archive..."
+          echo "{\"repositoryName\": \"${{ github.repository }}\", \"commitSha\": \"${{ github.sha }}\", \"repositoryOwner\": \"${{ github.repository_owner }}\"}" > /tmp/plugin-info.json
+          mv plugin.json /tmp
+          jq -s '.[0] * .[1]' /tmp/plugin.json /tmp/plugin-info.json > plugin.json
+          tar cf ../plugin.tar .
+          echo "Publishing plugin..."
+          curl -s --fail-with-body -XPOST 'https://node.windy.com/plugins/v1.0/upload' -H "x-windy-api-key: ${WINDY_API_KEY}" -F "plugin_archive=@../plugin.tar"
